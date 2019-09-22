@@ -66,29 +66,21 @@ public class CloudSpawner : MonoBehaviour
             temp.y = positionY;
 
             //spawns clouds in starcase fassion
-            if (controlX == 0)
-            {
+            if (controlX == 0){
                 temp.x = Random.Range(0.0f, maxX);
-                controlX = 1;
-                //Debug.Log("controlX = " + controlX);
+                controlX = 1;//Debug.Log("controlX = " + controlX);
             }
-            else if (controlX == 1)
-            {
+            else if (controlX == 1)            {
                 temp.x = Random.Range(0.0f, minX);
-                controlX = 2;
-                //Debug.Log("controlX = " + controlX);
+                controlX = 2;//Debug.Log("controlX = " + controlX);
             }
-            else if (controlX == 2)
-            {
+            else if (controlX == 2)            {
                 temp.x = Random.Range(1.0f, maxX);
-                controlX = 3;
-                //Debug.Log("controlX = " + controlX);
+                controlX = 3;//Debug.Log("controlX = " + controlX);
             }
-            else if (controlX == 3)
-            {
+            else if (controlX == 3)            {
                 temp.x = Random.Range(-1.0f, minX);
-                controlX = 0;
-                //Debug.Log("controlX = " + controlX);
+                controlX = 0;//Debug.Log("controlX = " + controlX);
             }
             temp.x = Random.Range(minX, maxX);
             lastCloudPostionY = positionY;
@@ -131,9 +123,49 @@ public class CloudSpawner : MonoBehaviour
 
         player.transform.position = temp;
     }
-    // Update is called once per frame
-    void Update()
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if(collision.tag == "Cloud" || collision.tag == "Deadly")
+        {
+            if (collision.transform.position.y == lastCloudPostionY)
+            {
+                Shuffle(clouds);
+                Shuffle(collectables);
+
+                Vector3 temp = collision.transform.position;
+                for (int i = 0; i < clouds.Length; i++)
+                {
+                    if (!clouds[i].activeInHierarchy)
+                    {
+                        if (controlX == 0)
+                        {
+                            temp.x = Random.Range(0.0f, maxX);
+                            controlX = 1;//Debug.Log("controlX = " + controlX);
+                        }
+                        else if (controlX == 1)
+                        {
+                            temp.x = Random.Range(0.0f, minX);
+                            controlX = 2;//Debug.Log("controlX = " + controlX);
+                        }
+                        else if (controlX == 2)
+                        {
+                            temp.x = Random.Range(1.0f, maxX);
+                            controlX = 3;//Debug.Log("controlX = " + controlX);
+                        }
+                        else if (controlX == 3)
+                        {
+                            temp.x = Random.Range(-1.0f, minX);
+                            controlX = 0;//Debug.Log("controlX = " + controlX);
+                        }
+                        temp.y -= distanceBetween;
+                        clouds[i].transform.position = temp;
+                        lastCloudPostionY = temp.y;
+                        clouds[i].SetActive(true);
+                    }
+                }
+            }
+        }
     }
+
 }
