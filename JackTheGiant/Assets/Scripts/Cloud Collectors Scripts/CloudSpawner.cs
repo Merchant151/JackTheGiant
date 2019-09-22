@@ -31,8 +31,9 @@ public class CloudSpawner : MonoBehaviour
     {//sets x axis bounds
         Vector3 bounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
-        maxX = bounds.x - 0.5f;
-        minX = -bounds.x + 0.5f;
+        maxX = bounds.x - 1f;
+        minX = -bounds.x + 1.1f;
+        Debug.Log("maxX = " + maxX + "minX = " + minX);
     }
     void Shuffle(GameObject[] arrayToShuffle)
     {
@@ -59,23 +60,27 @@ public class CloudSpawner : MonoBehaviour
             //spawns clouds in starcase fassion
             if (controlX == 0)
             {
-                temp.x = Random.Range(0.0f, maxX);
+                temp.x = Random.Range(0.0f, 1f);
                 controlX = 1;
+                //Debug.Log("controlX = " + controlX);
             }
             else if (controlX == 1)
             {
-                temp.x = Random.Range(0.0f, minX);
+                temp.x = Random.Range(0.0f, -1f);
                 controlX = 2;
+                //Debug.Log("controlX = " + controlX);
             }
             else if (controlX == 2)
             {
                 temp.x = Random.Range(1.0f, maxX);
                 controlX = 3;
+                //Debug.Log("controlX = " + controlX);
             }
             else if (controlX == 3)
             {
                 temp.x = Random.Range(-1.0f, minX);
                 controlX = 0;
+                //Debug.Log("controlX = " + controlX);
             }
             temp.x = Random.Range(minX, maxX);
             lastCloudPostionY = positionY;
